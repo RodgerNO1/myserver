@@ -1,1 +1,1 @@
-o #myserver
+#myserver
