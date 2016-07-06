@@ -25,11 +25,19 @@ void Session::on_read(const asio::error_code &error, size_t bytes_transferred){
 	}
 	read();
 }
-void Session::do_write()
+void Session::write(char * data)
 {
+	m_socket->async_write_some(asio::buffer(data, 128),std::bind(&Session::on_write,this,data,std::placeholders::_1,std::placeholders::_2));
 }
-void Session::on_write()
+void Session::on_write(char *data ,const asio::error_code &error, size_t bytes_transferred)
 {
+	if (error || bytes_transferred == 0)
+	{
+		std::cout<<"session-id:"<<getId()<<" is closed!"<<std::endl;
+		return;
+	}else{
+		std::cout<<"send-by-session-id:"<<getId()<<" [msg]>>"<<read_data<<std::endl;
+	}
 }
 void Session::setId(int id){
 	m_sessionId=id;

@@ -13,8 +13,25 @@ void MyServer::init(){
 }
 void MyServer::start(){
 	m_running=true;
-	//m_thread = new std::thread(&MyServer::run, this);
-run();
+	m_thread = new std::thread(&MyServer::command, this);
+	run();
+}
+void MyServer::command()
+{
+	int sid=0;
+	char cmd[128];
+	while(true){
+		std::cin>>sid>>cmd;
+		size_t len=std::strlen(cmd);
+		cmd[len]='\0';
+		if(sid==0){
+			std::cout<<"stop cmd!\n";
+		}else{
+			Session *s=m_sessionMap.at(sid);
+			if(s) 	s->write(cmd);
+			else	std::cout<<"fail to find session:id="<<sid<<std::endl;
+		}
+	}
 }
 void MyServer::onStart()
 {

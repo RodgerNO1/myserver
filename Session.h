@@ -22,8 +22,8 @@ public:
 	void reset();//重置会话
 	void read();//异步接收消息
 	void on_read(const asio::error_code &error, size_t bytes_transferred);
-	void do_write();
-	void on_write();
+	void write(char * data);
+	void on_write(char *data ,const asio::error_code &error, size_t bytes_transferred);
 	asio::ip::tcp::socket* Session::getSocket();
 	void setId(int id);
 	int getId();

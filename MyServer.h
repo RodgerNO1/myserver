@@ -24,6 +24,7 @@ public:
 	void run();
 	void wait();
 	void stop();
+	void command();
 	void removeSession(int id);
 private:
 	void do_accept();
